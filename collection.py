@@ -9,14 +9,11 @@ class collection:
         self.UniverseClient = universe_client
 
 
-
-    #async
     async def desc(self):
-        if self.CollectionDesc.id is not None:
-            req = proto.universe_pb2.DescribeCollectionRequest(self.CollectionDesc.name)
-            #collection_union_call
-            res = proto.universe_pb2.DescribeCollectionResponse(req)
-            return res
+        req = proto.universe_pb2.DescribeCollectionRequest()
+        req.name = self.coname
+        res = self.collection_union_call(req)
+        return res.desc
 
 
     def begin(self):
@@ -35,6 +32,13 @@ class collection:
         Object.append(self.CollectionDesc.database_id)
         return
 
+    async def collection_expr_call(self, expr):
+        return self.TxnClient.collcetion_expr(self.dbname, self.coname, expr)
+
+
+    async def collection_union_call(self, collection_request_union):
+        return self.UniverseClient.collection_union(collection_request_union)
+
 class CollectionTxn:
     def __init__(self, DatabaseTxn, TxnClient,database_id, collection_id):
         self.DatabaseTxn = DatabaseTxn
@@ -47,8 +51,3 @@ class CollectionTxn:
         self.exprs.append(MethodCallExpr)
 
 
-def collection_expr_call():
-    return
-
-def collection_union_call():
-    return
