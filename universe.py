@@ -17,13 +17,15 @@ class universe:
     async def createdatabase(self, name):
         req = proto.universe_pb2.DatabaseDesc()
         req.name = name
-        req_union = proto.universe_pb2.CreateDatabaseRequest(req)
+        req_union = proto.universe_pb2.CreateDatabaseRequest()
+        req_union.desc = req
         self.database_union_call(req_union)
 
     async def deletedatabase(self, name):
         req = proto.universe_pb2.DeleteDatabaseRequest()
         req.name = name
-        req_union = proto.universe_pb2.DeleteCollectionResponse(req)
+        req_union = proto.universe_pb2.DeleteCollectionResponse()
+        req_union.desc = req
         self.database_union_call(req_union)
 
 
